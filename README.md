@@ -1,1 +1,1 @@
-# IT-Cube-App
+# ITCubeApp
