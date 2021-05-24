@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_mail"
+            android:title="@string/menu_news" />
+        <item
+            android:id="@+id/nav_hakatons"
+            android:icon="@drawable/ic_groups"
+            android:title="@string/menu_hackatons" />
+        <item
+            android:id="@+id/nav_contests"
+            android:icon="@drawable/ic_events"
+            android:title="@string/menu_contests" />
+    </group>
+</menu>

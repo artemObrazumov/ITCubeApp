@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.artem_obrazumov.it_cubeapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ITCubeApp">
+        <activity android:name=".Activities.CubeInfoEditActivity"></activity>
+        <activity
+            android:name=".Activities.RecoverPasswordActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity android:name=".Activities.MyRequestsActivity" />
+        <activity android:name=".Activities.NewDirectionsActivity" />
+        <activity android:name=".Activities.RequestFormActivity" />
+        <activity
+            android:name=".Activities.CubeSelectActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity
+            android:name=".Activities.ImageViewerActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity android:name=".Activities.PostDetailActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".Activities.ProfileEditActivity" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity
+            android:name=".Activities.IntroActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.NewPostActivity" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+
+        <service
+            android:name=".Services.MessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

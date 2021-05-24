@@ -1,0 +1,265 @@
+<resources>
+    <string name="app_name">IT-Cube App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="action_logout">Выйти</string>
+
+    <string name="menu_news">Новости</string>
+    <string name="menu_hackatons">Хакатоны</string>
+    <string name="menu_contests">Конкурсы</string>
+    <string name="menu_group">Моя группа</string>
+    <string name="add_post">Добавление новости</string>
+    <string name="login">Войти</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="intro_text">Добро пожаловать на платформу IT-Куба!</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="register_text">Регистрация</string>
+    <string name="autorization">Авторизация</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="password_repaet">Повторите пароль</string>
+    <string name="password">Пароль</string>
+    <string name="email">Email</string>
+    <string name="next">Далее</string>
+    <string name="wrong_email">Почта введена неверно</string>
+    <string name="wrong_password_repeat">Пароли не совпадают</string>
+    <string name="registration_process">Регистрация пользователя</string>
+    <string name="account_created">Аккаунт успешно создан</string>
+    <string name="account_creating_error">Произошла ошибка во время создания аккаунта. Повторите попытку позже.</string>
+    <string name="short_password">Короткий пароль</string>
+    <string name="short_name">Короткое имя</string>
+    <string name="short_surname">Короткая фамилия</string>
+    <string name="enter">Войти</string>
+    <string name="remember_me">Запомнить меня</string>
+    <string name="want_to_leave">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="autorization_process">Авторизация пользователя…</string>
+    <string name="invalid_email">Пользователя с такой почтой не существует!</string>
+    <string name="invalid_password">Пароль введен неверно!</string>
+    <string name="successful_sign_in">Вы успешно вошли в аккаунт!</string>
+    <string name="no_post_title">Введите название поста!</string>
+    <string name="failed_loading_posts">Произошла ошибка при загрузке постов</string>
+    <string name="profile_error">Ошибка при открытии профиля</string>
+    <string name="dateOfBirthSelect">Выберите дату рождения</string>
+    <string name="loading">Загрузка…</string>
+    <string name="edit_profile">Редактирование профиля</string>
+    <string name="profile">Профиль</string>
+    <string name="action_edit">Редактирование</string>
+    <string name="erase_avatar">Удалить аватарку</string>
+    <string name="default_avatar_link"><![CDATA[https://firebasestorage.googleapis.com/v0/b/it–cube–app.appspot.com/o/default_user_profile_icon.jpg?alt=media&token=d67bfbf3-a20a-40ca-aa67-44366ea585f5]]></string>
+    <string name="want_to_edit_profile">Вы действительно хотите изменить данные профиля?</string>
+    <string name="selectImageFromCamera">Сделать фото</string>
+    <string name="selectImageFromStorage">Выбрать изображение из галлереи</string>
+    <string name="selectNewAvatar">Выбрать аватарку из:</string>
+    <string name="avatar_updated">Аватарка пользователя обновлена!</string>
+    <string name="uploading_avatar">Загрузка аватарки</string>
+    <string name="avatar_update_error">Ошибка при обновлении аватарки</string>
+    <string name="edit">Редактировать</string>
+    <string name="view">Просмотреть</string>
+    <string name="want_to_delete">Вы действительно хотите удалить этот пост?</string>
+    <string name="image_load_error">Ошибка при загрузке изображения</string>
+    <string name="add_image">Добавить фото</string>
+    <string name="cut">Обрезать</string>
+    <string name="delete">Удалить</string>
+    <string name="post_title">Название поста</string>
+    <string name="post_description">Описание поста</string>
+    <string name="edit_post">Редактирование новости</string>
+    <string name="my_courses">Мои направления</string>
+    <string name="admin_panel">Административная панель</string>
+    <string name="menu_drafts">Черновики</string>
+    <string name="it_cube_select">Выбор IT-Куба</string>
+    <string name="cities_load_error">Ошибка при загрузке городов</string>
+    <string name="contestIsOpen">Запись открыта</string>
+    <string name="contestIsClosed">Запись закрыта</string>
+    <string name="participate">Записаться</string>
+    <string name="loading_cubes">Загрузка IT-Кубов</string>
+    <string name="loading_cities">Загрузка списка городов</string>
+    <string name="cubes_load_error">Ошибка при загрузке IT-Кубов</string>
+    <string name="loading_description">Загрузка описания</string>
+    <string name="select_city">Выберите город</string>
+    <string name="select_cube">Выберите IT-Куб</string>
+    <string name="select_later">Выбрать позже</string>
+    <string name="loading_images">Загрузка изображений</string>
+    <string name="post_deleted">Пост успешно удален</string>
+    <string name="post_delete_error">Ошибка при удалении поста</string>
+    <string name="request_form_title">Название</string>
+    <string name="description">"Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание "</string>
+    <string name="selectExtraActivityDirection">Выберите дополнительные направления</string>
+    <string name="patronymic">Отчество</string>
+    <string name="selectActivityDirection">Выберите основное направление</string>
+    <string name="englishActivity">Английский язык (8-15 лет)</string>
+    <string name="chessActivity">Шахматы (7-17 лет)</string>
+    <string name="selectSchool">Выберите школу</string>
+    <string name="phone_number">Телефонный номер</string>
+    <string name="selectFormNumber">Выберите класс</string>
+    <string name="selectFormLetter">Выберите букву класса</string>
+    <string name="parent_name">Имя родителя</string>
+    <string name="parent_patronymic">Отчество родителя</string>
+    <string name="parent_surname">Фамилия родителя</string>
+    <string name="parent_phone">Телефон родителя</string>
+    <string name="teacher_name">Имя классного руководителя</string>
+    <string name="teacher_surname">Фамилия классного руководителя</string>
+    <string name="teacher_patronymic">Отчество классного руководителя</string>
+    <string name="action_add_new_course">Записаться на курс</string>
+    <string name="load_user_data_error">Ошибка при загрузке данных пользователя</string>
+    <string name="action_submit">Подтвердить</string>
+    <string name="short_patronymic">Короткое отчество</string>
+    <string name="loading_students_error">Ошибка при загрузке списка учеников</string>
+    <string name="action_search">Поиск учеников</string>
+    <string name="want_to_exit">Вы действительно хотите выйти. Изменения не сохранятся</string>
+    <string name="selectActivityProgram">Выберите программу вашего направления</string>
+    <string name="direction_description">Описание направления</string>
+    <string name="programs">Программы обучения</string>
+    <string name="program_title">Название программы</string>
+    <string name="program_description">Описание программы</string>
+    <string name="direction_title">Название направления</string>
+    <string name="monday_short">Пн</string>
+    <string name="tuesday_short">Вт</string>
+    <string name="wednesday_short">Ср</string>
+    <string name="thursday_short">Чт</string>
+    <string name="friday_short">Пт</string>
+    <string name="saturday_short">Сб</string>
+    <string name="select_time">Выберите время</string>
+    <string name="subscribe">Записаться</string>
+    <string name="available_courses">Доступные направления</string>
+    <string name="no_more_programs">Вы не можете добавить больше программ обучения!</string>
+    <string name="add_program">Добавить программу обучения</string>
+    <string name="add_schedule">Добавить расписание</string>
+    <string name="short_title">Короткое название</string>
+    <string name="short_description">Короткое описание</string>
+    <string name="days_of_week_not_selected">Дни недели не выбраны!</string>
+    <string name="failed_loading">Ошибка при загрузке</string>
+    <string name="add_direction">Добавить направление</string>
+    <string name="active_courses">Активные направления</string>
+    <string name="error">Ошибка</string>
+    <string name="publish">Опубликовать</string>
+    <string name="link">Ссылка на мероприятие</string>
+    <string name="open_until">Запись открыта до: (Выберите время)</string>
+    <string name="link_not_working">Ссылка не работает</string>
+    <string name="unable_to_delete_post">Невозможно удалить пост!</string>
+    <string name="news_notification">Новый новостной пост!</string>
+    <string name="hackathon_notification">Новый хакатон!</string>
+    <string name="contest_notification">Новый конкурс!</string>
+    <string name="selectSchedule">Выберите расписание</string>
+    <string name="apply">Одобрить</string>
+    <string name="deny">Отклонить</string>
+    <string name="reserve">Резерв</string>
+    <string name="unchecked">Непроверенные</string>
+    <string name="accepted">Принятые</string>
+    <string name="denied">Отклоненные</string>
+    <string name="reserved">Резерв</string>
+    <string name="enrolled">Зачислены</string>
+    <string name="select_post_type">Выберите тип поста</string>
+    <string name="news_post">Новостной пост</string>
+    <string name="hackathon_post">Хакатон</string>
+    <string name="contest_post">Конкурс</string>
+    <string name="action_watch_requests">Посмотреть мои заявки</string>
+    <string name="request_approved">Заявка принята!</string>
+    <string name="request_denied">Заявка отклонена!</string>
+    <string name="request_reserved">Заявка в резерве!</string>
+    <string name="loading_requests_error">Ошибка при загрузке заявок!</string>
+    <string name="my_requests">Мои заявки</string>
+    <string name="no_news_posts_found">Новостных постов не найдено. Зайдите сюда снова позже.</string>
+    <string name="no_hackathon_posts_found">Постов о хакатонах не найдено. Зайдите сюда снова позже.</string>
+    <string name="no_contest_posts_found">Постов о конкурсах не найдено. Зайдите сюда снова позже.</string>
+    <string name="no_internet">Отсутствует подключение к интернету. Проверьте свое подключение и перезагрузите приложение.</string>
+    <string name="restart">Перезагрузить</string>
+    <string name="stay">Остаться</string>
+    <string name="request_accepted">Заявка одобрена!</string>
+    <string name="want_to_deny_request">Вы действительно хотите отклонить эту заявку?</string>
+    <string name="deny_reson">Укажите причину отклонения заявки</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">Ок</string>
+    <string name="short_reason">Слишком короткая причина</string>
+    <string name="denied_because">Заявка отклонена. Причина:</string>
+    <string name="reserved_because">Заявка в резерве. Причина:</string>
+    <string name="want_to_reserve_request">Вы действительно хотите отправить эту заявку в резерв?</string>
+    <string name="reserved_reason">Укажите причину резервирования заявки</string>
+    <string name="requests">Заявки</string>
+    <string name="students_list">Список учеников</string>
+    <string name="request_enrolled">Вы были зачислены в группу!</string>
+    <string name="request_enrolled_part">"Вы были зачислены в группу по направлению "</string>
+    <string name="want_to_accept_request">Вы действительно хотите принять эту заявку?</string>
+    <string name="new_request">Новая заявка!</string>
+    <string name="new_request_part">"Новая заявка на направление "</string>
+    <string name="request_unwatched">Заявка не обработана!</string>
+    <string name="want_to_leave_form">Вы действительно хотите уйти с экрана заполнения формы? Ваши данные не будут сохранены</string>
+    <string name="want_to_send_form">Вы действительно хотите отправить форму? Это действие нельзя будет отменить</string>
+    <string name="form_was_sent">Ваша форма была успешно отправлена!</string>
+    <string name="add_activities">Добавить направление</string>
+    <string name="edit_cube_info">Редактировать информацию IT-куба</string>
+    <string name="unable_to_load_panel">Невозможно загрузить административную панель</string>
+    <string name="watch_directions">Посмотреть список направлений</string>
+    <string name="watch_requests">Посмотреть список заявок</string>
+    <string name="cant_subscribe_user">Невозможно подписать пользователя на направление</string>
+    <string name="request_denied_format">Ваша заявка на направление %s была отклонена!</string>
+    <string name="request_accepted_format">Ваша заявка на направление %s была принята!</string>
+    <string name="request_reserved_format">Ваша заявка на направление %s была отправлена в резерв!</string>
+    <string name="date_of_birth_not_selected">Дата рождения не выбрана!</string>
+    <string name="watch_students_list">Посмотреть список учеников</string>
+    <string name="no_groups">Вы еще не записаны ни в одну группу!</string>
+    <string name="cant_login">Ошибка при авторизации пользователя</string>
+    <string name="teacher_in_cube">"Преподает в IT-Кубе по адресу "</string>
+    <string name="admin_in_cube">"Администратор в IT-Кубе по адресу "</string>
+    <string name="platform_admin">Администратор платформы</string>
+    <string name="studying_in_cube">"Обучается в IT-Кубе по адресу "</string>
+    <string name="recover_password_text">Восстановление пароля</string>
+    <string name="send_email">Отправить письмо</string>
+    <string name="recover_instructions">Укажите email вашего аккаунта. Вам придет письмо. Перейдите по ссылке в нем и следуйте инструкциям для смены пароля. В случае неудачи отправьте письмо снова.</string>
+    <string name="email_was_sent">Письмо было отправлено</string>
+    <string name="email_sent_error">Произошла ошибка при отправке письма</string>
+    <string name="sending_email">Отправка письма...</string>
+    <string name="cube_address">Адрес куба</string>
+    <string name="short_address">Слишком короткий адрес!</string>
+    <string name="cube_updated">Вы успешно вступили в куб!</string>
+    <string name="no_draft_news_post">Черновиков новостных постов не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
+    <string name="no_draft_hackathon_post">Черновиков постов о хакатонах не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
+    <string name="no_draft_contest_post">Черновиков постов о конкурсах не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
+    <string name="no_requests_found">Заявок этого типа не надено</string>
+
+
+    <string-array name="schools">
+        <item>МБОУ СШ №1 им. М. Горького</item>
+        <item>МБОУ СШ №2 им. А. С. Пушкина</item>
+        <item>МБОУ "Лицей"</item>
+        <item>МБОУ СШ №10</item>
+        <item>МБОУ СШ "Гимназия"</item>
+        <item>МБОУ СШ №14</item>
+        <item>МБОУ СШ №15</item>
+        <item>МБОУ СШ №58</item>
+    </string-array>
+
+    <string-array name="form_numbers">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
+    <string-array name="form_letters">
+        <item>А</item>
+        <item>Б</item>
+        <item>В</item>
+        <item>Г</item>
+        <item>Д</item>
+        <item>Е</item>
+    </string-array>
+
+    <string-array name="schedules">
+        <item>14:30–16:10</item>
+        <item>16:20–18:00</item>
+        <item>18:10–19:50</item>
+        <item>13:30–15:10</item>
+        <item>17:10–18:50</item>
+    </string-array>
+</resources>

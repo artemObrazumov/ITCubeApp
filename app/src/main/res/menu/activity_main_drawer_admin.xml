@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_drafts"
+            android:icon="@drawable/ic_courses"
+            android:title="@string/menu_drafts" />
+        <item
+            android:id="@+id/nav_admin_panel"
+            android:icon="@drawable/ic_admin_panel"
+            android:title="@string/admin_panel" />
+    </group>
+</menu>

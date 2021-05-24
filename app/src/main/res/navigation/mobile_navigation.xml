@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_news">
+
+    <fragment
+        android:id="@+id/nav_news"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.NewsFragment"
+        android:label="@string/menu_news"
+        tools:layout="@layout/fragments_posts" />
+
+    <fragment
+        android:id="@+id/nav_hakatons"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.HackathonsFragment"
+        android:label="@string/menu_hackatons"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_contests"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.ContestsFragment"
+        android:label="@string/menu_contests"
+        tools:layout="@layout/fragment_groups" />
+
+    <fragment
+        android:id="@+id/nav_group"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.GroupFragment"
+        android:label="@string/menu_group"
+        tools:layout="@layout/fragment_groups" />
+
+    <fragment
+        android:id="@+id/nav_courses"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.DirectionsFragment"
+        android:label="@string/my_courses"
+        tools:layout="@layout/fragment_directions" />
+
+    <fragment
+        android:id="@+id/nav_drafts"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.DraftsFragment"
+        android:label="@string/menu_drafts"
+        tools:layout="@layout/fragments_posts" />
+
+    <fragment
+        android:id="@+id/nav_admin_panel"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.AdminPanelFragment"
+        android:label="@string/admin_panel"
+        tools:layout="@layout/fragment_admin_panel" />
+
+    <fragment
+        android:id="@+id/nav_requests_list"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.RequestListFragment"
+        android:label="@string/requests"
+        tools:layout="@layout/fragment_requests_list" />
+
+    <fragment
+        android:id="@+id/nav_students_list"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.UsersListFragment"
+        android:label="@string/students_list"
+        tools:layout="@layout/fragment_users_list" />
+
+    <fragment
+        android:id="@+id/nav_cube_directions_list"
+        android:name="com.artem_obrazumov.it_cubeapp.Fragments.CubeDirectionsFragment"
+        android:label="@string/students_list"
+        tools:layout="@layout/fragment_users_list" />
+
+</navigation>

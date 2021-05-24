@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_view_requests"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_courses"
+        android:title="@string/action_watch_requests"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "902248409834",
+    "firebase_url": "https://it-cube-app-default-rtdb.firebaseio.com",
+    "project_id": "it-cube-app",
+    "storage_bucket": "it-cube-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902248409834:android:8788676bc879d171048593",
+        "android_client_info": {
+          "package_name": "com.artem_obrazumov.it_cubeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902248409834-qaila4o84du2m3lr1983cev9sf2s13ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhv7PDb3FNF-PYqQuh0MyFIWmKoYgjLdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902248409834-qaila4o84du2m3lr1983cev9sf2s13ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
