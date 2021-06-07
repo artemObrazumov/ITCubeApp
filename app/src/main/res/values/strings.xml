@@ -219,6 +219,7 @@
     <string name="no_draft_hackathon_post">Черновиков постов о хакатонах не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
     <string name="no_draft_contest_post">Черновиков постов о конкурсах не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
     <string name="no_requests_found">Заявок этого типа не надено</string>
+    <string name="allow_files_acces">Разрешите приложению доступ к файлам на устройстве</string>
 
 
     <string-array name="schools">

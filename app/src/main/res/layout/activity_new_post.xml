@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.NewPostActivity">
+        tools:context=".ui.Activities.NewPostActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_title_layout"

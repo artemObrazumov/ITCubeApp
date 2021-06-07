@@ -13,7 +13,6 @@ import com.artem_obrazumov.it_cubeapp.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
@@ -117,7 +116,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         UserModel user = dataSet.get(position);
         viewHolder.getUserName().setText(user.getName() + " " + user.getSurname());
-        viewHolder.getUserStatus().setText(UserModel.getUserStatusName(user.getUserStatus()));
+        viewHolder.getUserStatus().setText(UserModel.getUserStatus(user.getUserStatus()));
         // Загрузка аватарки
         try {
             Glide.with(viewHolder.getUserAvatar()).load(user.getAvatar()).placeholder(R.drawable.default_user_profile_icon).into(viewHolder.getUserAvatar());

@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".Activities.NewDirectionsActivity">
+        tools:context=".ui.Activities.NewDirectionsActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_title_layout"

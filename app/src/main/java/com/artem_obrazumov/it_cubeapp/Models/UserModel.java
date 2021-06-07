@@ -41,7 +41,7 @@ public class UserModel {
         this.userStatus = userStatus;
     }
 
-    public static String getUserStatusName(int status) {
+    public static String getUserStatus(int status) {
         switch (status) {
             case STATUS_STUDENT:
                 return "Ученик";

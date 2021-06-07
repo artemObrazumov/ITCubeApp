@@ -10,21 +10,16 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.artem_obrazumov.it_cubeapp.Activities.MainActivity;
-import com.artem_obrazumov.it_cubeapp.Activities.MyRequestsActivity;
-import com.artem_obrazumov.it_cubeapp.Activities.PostDetailActivity;
+import com.artem_obrazumov.it_cubeapp.ui.Activities.MainActivity;
+import com.artem_obrazumov.it_cubeapp.ui.Activities.MyRequestsActivity;
+import com.artem_obrazumov.it_cubeapp.ui.Activities.PostDetailActivity;
 import com.artem_obrazumov.it_cubeapp.Models.PostModel;
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

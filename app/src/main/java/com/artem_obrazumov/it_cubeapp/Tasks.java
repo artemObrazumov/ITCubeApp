@@ -28,7 +28,7 @@ import java.util.Map;
 public class Tasks {
     // AsyncTask для загрузки изображения
     public static class ImageBitmapLoader extends AsyncTask<Void, Void, Bitmap> {
-        String src;
+        final String src;
 
         public ImageBitmapLoader(String src) {
             this.src = src;
@@ -54,8 +54,8 @@ public class Tasks {
 
     // AsyncTask для отправки уведомления
     public static class NotificationSender extends AsyncTask<Void, Void, Void> {
-        private Context context;
-        private JSONObject json;
+        private final Context context;
+        private final JSONObject json;
 
         public NotificationSender(Context context, JSONObject json) {
             this.context = context;

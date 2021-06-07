@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.CubeInfoEditActivity">
+        tools:context=".ui.Activities.CubeInfoEditActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_address_layout"

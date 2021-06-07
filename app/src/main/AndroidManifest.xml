@@ -20,31 +20,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ITCubeApp">
-        <activity android:name=".Activities.CubeInfoEditActivity"></activity>
+        <activity android:name=".ui.Activities.CubeInfoEditActivity"></activity>
         <activity
-            android:name=".Activities.RecoverPasswordActivity"
+            android:name=".ui.Activities.RecoverPasswordActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
-        <activity android:name=".Activities.MyRequestsActivity" />
-        <activity android:name=".Activities.NewDirectionsActivity" />
-        <activity android:name=".Activities.RequestFormActivity" />
+        <activity android:name=".ui.Activities.MyRequestsActivity" />
+        <activity android:name=".ui.Activities.NewDirectionsActivity" />
+        <activity android:name=".ui.Activities.RequestFormActivity" />
         <activity
-            android:name=".Activities.CubeSelectActivity"
+            android:name=".ui.Activities.CubeSelectActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
         <activity
-            android:name=".Activities.ImageViewerActivity"
+            android:name=".ui.Activities.ImageViewerActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
-        <activity android:name=".Activities.PostDetailActivity" />
+        <activity android:name=".ui.Activities.PostDetailActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
-        <activity android:name=".Activities.ProfileEditActivity" />
-        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".ui.Activities.ProfileEditActivity" />
+        <activity android:name=".ui.Activities.ProfileActivity" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".ui.Activities.LoginActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
         <activity
-            android:name=".Activities.RegisterActivity"
+            android:name=".ui.Activities.RegisterActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
         <activity
-            android:name=".Activities.IntroActivity"
+            android:name=".ui.Activities.IntroActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,9 +52,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.NewPostActivity" />
+        <activity android:name=".ui.Activities.NewPostActivity" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".ui.Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />
 
