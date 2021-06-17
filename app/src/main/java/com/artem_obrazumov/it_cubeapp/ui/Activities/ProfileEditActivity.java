@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.artem_obrazumov.it_cubeapp.databinding.ActivityProfileEditBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -131,12 +132,17 @@ public class ProfileEditActivity extends AppCompatActivity {
         // Инициализируем диалоговое окно
         progressDialog = new ProgressDialog(this);
 
-        fillViews();
+        if (UserData.thisUser.getUserStatus() != UserModel.STATUS_PARENT) {
+            fillViews(auth.getCurrentUser().getUid());
+        } else {
+            String Uid = getIntent().getStringExtra("profileUid");
+            fillViews(Uid);
+        }
     }
 
     // Метод для заполнения полей текущими данными пользователя
-    private void fillViews() {
-        UserModel.getUserQuery(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
+    private void fillViews(String Uid) {
+        UserModel.getUserQuery(Uid).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -226,6 +232,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         finish();
+                        UserData.GetChildrenListFromDB();
                     }
                 });
     }

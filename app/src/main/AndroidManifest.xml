@@ -20,7 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ITCubeApp">
-        <activity android:name=".ui.Activities.CubeInfoEditActivity"></activity>
+        <activity
+            android:name=".ui.Activities.ChildRegistrationActivity"
+            android:theme="@style/Theme.ITCubeApp.NoActionBar" />
+        <activity android:name=".ui.Activities.CubeInfoEditActivity" />
         <activity
             android:name=".ui.Activities.RecoverPasswordActivity"
             android:theme="@style/Theme.ITCubeApp.NoActionBar" />

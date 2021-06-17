@@ -27,6 +27,8 @@ public class UserModel {
     private String avatar = "https://firebasestorage.googleapis.com/v0/b/it-cube-app.appspot.com/o/default_user_profile_icon.jpg?alt=media&token=d67bfbf3-a20a-40ca-aa67-44366ea585f5";
     private int userStatus = STATUS_STUDENT;   // Статус пользователя
 
+    private String parentID;                   // ID родительского аккаунта (если есть)
+
     // Пустой конструктор
     public UserModel () {}
 
@@ -151,5 +153,13 @@ public class UserModel {
 
     public void setUserStatus(int userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(String parentID) {
+        this.parentID = parentID;
     }
 }

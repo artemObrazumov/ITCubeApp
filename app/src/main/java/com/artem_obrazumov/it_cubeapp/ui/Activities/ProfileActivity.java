@@ -2,8 +2,10 @@ package com.artem_obrazumov.it_cubeapp.ui.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import com.artem_obrazumov.it_cubeapp.Models.DirectionModel;
 import com.artem_obrazumov.it_cubeapp.Models.ITCubeModel;
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.artem_obrazumov.it_cubeapp.databinding.ActivityProfileBinding;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +39,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     // База данных
     private FirebaseAuth auth;
+
+    private Menu activityMenu;
+    private UserModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +77,17 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            UserModel user = ds.getValue(UserModel.class);
+                            user = ds.getValue(UserModel.class);
                             binding.profileName.setText( user.getName() + " " + user.getSurname() );
                             binding.profileStatus.setText( UserModel.getUserStatus( user.getUserStatus() ) );
                             long userDateOfBirth = user.getDateOfBirth();
                             binding.profileAge.setText( getUserAge(userDateOfBirth) );
                             getCubeInfo(user.getCubeId(), user.getUserStatus());
                             getDirectionsList(user.getDirectionsID());
+
+                            if (activityMenu != null && user.getUserStatus() == UserModel.STATUS_PARENT) {
+                                getMenuInflater().inflate(R.menu.parent_menu_elements, activityMenu);
+                            }
 
                             // Загружаем аватарку пользователя по ссылке
                             String avatarURL = user.getAvatar();
@@ -142,6 +152,9 @@ public class ProfileActivity extends AppCompatActivity {
                             if (userStatus == UserModel.STATUS_TEACHER) {
                                 binding.cubeInfo.setText(getString(R.string.teacher_in_cube) + cube.getAddress());
                                 binding.userDirections.setVisibility(View.GONE);
+                            } else if (userStatus == UserModel.STATUS_PARENT) {
+                                binding.cubeInfo.setVisibility(View.GONE);
+                                binding.userDirections.setVisibility(View.GONE);
                             } else if (userStatus == UserModel.STATUS_ADMIN) {
                                 binding.cubeInfo.setText(getString(R.string.admin_in_cube) + cube.getAddress());
                                 binding.userDirections.setVisibility(View.GONE);
@@ -188,6 +201,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        activityMenu = menu;
+        if (user != null && user.getUserStatus() == UserModel.STATUS_PARENT) {
+            getMenuInflater().inflate(R.menu.parent_menu_elements, menu);
+        }
         // Устанавливаем меню для активности, если пользователь просматривает свой аккаунт
         if (profileUid.equals(auth.getCurrentUser().getUid())) {
             getMenuInflater().inflate(R.menu.profile_menu, menu);
@@ -200,7 +217,19 @@ public class ProfileActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_edit:
                 // Кнопка "редактировать"
-                startActivity(new Intent(this, ProfileEditActivity.class));
+                if (UserData.thisUser.getUserStatus() != UserModel.STATUS_PARENT) {
+                    startActivity(new Intent(this, ProfileEditActivity.class));
+                } else {
+                    // Родительский аккаунт: выбираем, какой профиль редактировать
+                    SelectEditableProfile();
+                }
+                break;
+            case R.id.action_view_children:
+                // Просмотр детей
+                selectChildToView();
+                break;
+            case R.id.action_add_child:
+                startActivity(new Intent(ProfileActivity.this, ChildRegistrationActivity.class));
                 break;
             default:
                 // Кнопка "назад"
@@ -208,6 +237,49 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void SelectEditableProfile() {
+        UserData.CreateChildrenNames();
+        ArrayList<String> options = new ArrayList<>(UserData.userChildrenNames);
+        options.add(getString(R.string.edit_my_account));
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_child))
+                .setItems(options.toArray(new String[0]),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(ProfileActivity.this, ProfileEditActivity.class);
+                                try {
+                                    intent.putExtra("profileUid", UserData.userChildrenList.get(which).getUid());
+                                } catch (Exception ignored) {
+                                    intent.putExtra("profileUid", auth.getCurrentUser().getUid());
+                                }
+                                startActivity(intent);
+                            }
+                        })
+                .create().show();
+    }
+
+    // Выбор профиля ребенка для просмотра
+    private void selectChildToView() {
+        UserData.CreateChildrenNames();
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_child))
+                .setItems(UserData.userChildrenNames.toArray(new String[0]),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                                try {
+                                    intent.putExtra("profileUid", UserData.userChildrenList.get(which).getUid());
+                                } catch (Exception ignored) {
+                                    intent.putExtra("profileUid", auth.getCurrentUser().getUid());
+                                }
+                                startActivity(intent);
+                            }
+                        })
+                .create().show();
     }
 
     private String getUserAge(long dateOfBirthInMills) {

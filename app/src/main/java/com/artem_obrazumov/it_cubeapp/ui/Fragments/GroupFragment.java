@@ -1,19 +1,18 @@
 package com.artem_obrazumov.it_cubeapp.ui.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.artem_obrazumov.it_cubeapp.databinding.FragmentGroupsBinding;
 import com.artem_obrazumov.it_cubeapp.ui.Activities.ProfileActivity;
 import com.artem_obrazumov.it_cubeapp.Adapters.GroupAdapter;
@@ -24,7 +23,6 @@ import com.artem_obrazumov.it_cubeapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -54,7 +52,12 @@ public class GroupFragment extends Fragment {
         groups = new ArrayList<>();
         groupsAdapter = new GroupAdapter();
         initializeRecyclerView();
-        getGroupsList(auth.getCurrentUser().getUid());
+        if (UserData.thisUser.getUserStatus() == UserModel.STATUS_PARENT) {
+            // Если пользователь - родитель, то он выбирает ребенка, группы которого он хочет посмотреть
+            getGroupsListAsParent();
+        } else {
+            getGroupsList(auth.getCurrentUser().getUid());
+        }
 
         return root;
     }
@@ -78,6 +81,20 @@ public class GroupFragment extends Fragment {
             public void onUserBanned(String userID) {}
         });
         binding.groupsList.setAdapter(groupsAdapter);
+    }
+
+    private void getGroupsListAsParent() {
+        UserData.CreateChildrenNames();
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.select_child))
+                .setItems(UserData.userChildrenNames.toArray(new String[0]),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getGroupsList(UserData.userChildrenList.get(which).getUid());
+                            }
+                        })
+                .create().show();
     }
 
     // Получение групп пользователя

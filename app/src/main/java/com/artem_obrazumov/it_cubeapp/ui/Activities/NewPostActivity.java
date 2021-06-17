@@ -1,9 +1,11 @@
 package com.artem_obrazumov.it_cubeapp.ui.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,9 +21,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,12 +35,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.artem_obrazumov.it_cubeapp.Adapters.AddedImagesAdapter;
+import com.artem_obrazumov.it_cubeapp.Config;
 import com.artem_obrazumov.it_cubeapp.Models.ContestPostModel;
 import com.artem_obrazumov.it_cubeapp.Models.PostModel;
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
 import com.artem_obrazumov.it_cubeapp.Tasks;
+import com.artem_obrazumov.it_cubeapp.Tools;
 import com.artem_obrazumov.it_cubeapp.databinding.ActivityNewPostBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +62,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -70,6 +83,7 @@ public class NewPostActivity extends AppCompatActivity {
 
     public static final int CREATE_NEW_POST = 0;  // Создание нового поста
     public static final int EDIT_POST = 1;        // Редактирование поста
+    public static final int IMPORT_POST = 2;      // Импорт поста из ВК
 
     private static final int GET_PERMISSION_TO_WRITE = 2; // Получение разрешения на запись в хранилище
 
@@ -117,7 +131,7 @@ public class NewPostActivity extends AppCompatActivity {
         // Получение верхней панели
         ActionBar action_bar = getSupportActionBar();
         // Изменение названия верхней панели
-        if (mode == CREATE_NEW_POST) {
+        if (mode == CREATE_NEW_POST || mode == IMPORT_POST) {
             action_bar.setTitle(R.string.add_post);
         } else if (mode == EDIT_POST) {
             action_bar.setTitle(R.string.edit_post);
@@ -222,12 +236,86 @@ public class NewPostActivity extends AppCompatActivity {
         mode = intent.getIntExtra("mode", CREATE_NEW_POST);
         if (mode == EDIT_POST) {
             existingPostID = intent.getStringExtra("existingPostID");
-            /*
-                Запрашиваем доступ на запись файлов (для редактирования изображений)
-                Если доступ будет разрешен, то заполняем все поля в методе onRequestPermissionsResult()
-            */
-            ActivityCompat.requestPermissions(NewPostActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},GET_PERMISSION_TO_WRITE);
+        }
+        if (mode == IMPORT_POST) {
+            getVKPostURL();
+        }
+
+        /*
+           Запрашиваем доступ на запись файлов (для редактирования изображений)
+           Если доступ будет разрешен, то заполняем все поля в методе onRequestPermissionsResult()
+        */
+        ActivityCompat.requestPermissions(NewPostActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},GET_PERMISSION_TO_WRITE);
+    }
+
+    // Получение записи из вк
+    private void getVKPostURL() {
+        EditText input = new EditText(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(params);
+
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.write_vk_link))
+                .setView(input)
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = input.getText().toString().trim();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                String requestUrl = Config.VK_API_GET_POST_URL + getPostID(url);
+                                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                                StringRequest request = new StringRequest(Request.Method.GET, requestUrl,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject postJson = new JSONObject(response);
+                                                    onGetPostJSON(postJson);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                    }
+                                });
+                                queue.add(request);
+                            }
+                            private String getPostID(String url) {
+                                try {
+                                    Uri uri = Uri.parse(url);
+                                    return uri.getQueryParameter("w").substring(4);
+                                } catch (Exception e) {
+                                    return url.substring(19);
+                                }
+                            }
+                        }).start();
+                    }
+                })
+                .create().show();
+    }
+
+    private void onGetPostJSON(JSONObject json) throws JSONException {
+        if (postType == PostModel.POST_TYPE_NEWS) {
+            PostModel post = Tools.VK_Tools.getPostFromJSON(json);
+            setupPostFields(post);
+        } else {
+            ContestPostModel post = Tools.VK_Tools.getContestPostFromJSON(json);
+            setupContestPostFields(post);
         }
     }
 
@@ -240,15 +328,7 @@ public class NewPostActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot ds : snapshot.getChildren()) {
                                 PostModel post = ds.getValue(PostModel.class);
-                                binding.inputTitle.setText(post.getTitle());
-                                binding.inputDescription.setText(post.getDescription());
-                                previousPostPublishType = post.getPublishType();
-                                if (post.getPublishType() == PostModel.STATE_PUBLISHED) {
-                                    binding.publishCheckbox.setChecked(true);
-                                }
-                                ArrayList<String> imagesURLs = post.getImagesURLs();
-
-                                loadEditableImages(imagesURLs);
+                                setupPostFields(post);
                             }
                         }
 
@@ -264,12 +344,8 @@ public class NewPostActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot ds : snapshot.getChildren()) {
-                                PostModel post = ds.getValue(PostModel.class);
-                                binding.inputTitle.setText(post.getTitle());
-                                binding.inputDescription.setText(post.getDescription());
-                                ArrayList<String> imagesURLs = post.getImagesURLs();
-
-                                loadEditableImages(imagesURLs);
+                                ContestPostModel post = ds.getValue(ContestPostModel.class);
+                                setupContestPostFields(post);
                             }
                         }
 
@@ -285,12 +361,8 @@ public class NewPostActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot ds : snapshot.getChildren()) {
-                                PostModel post = ds.getValue(PostModel.class);
-                                binding.inputTitle.setText(post.getTitle());
-                                binding.inputDescription.setText(post.getDescription());
-                                ArrayList<String> imagesURLs = post.getImagesURLs();
-
-                                loadEditableImages(imagesURLs);
+                                ContestPostModel post = ds.getValue(ContestPostModel.class);
+                                setupContestPostFields(post);
                             }
                         }
 
@@ -301,6 +373,28 @@ public class NewPostActivity extends AppCompatActivity {
                     }
             );
         }
+    }
+
+    private void setupPostFields(PostModel post) {
+        binding.inputTitle.setText(post.getTitle());
+        binding.inputDescription.setText(post.getDescription());
+        previousPostPublishType = post.getPublishType();
+        if (post.getPublishType() == PostModel.STATE_PUBLISHED) {
+            binding.publishCheckbox.setChecked(true);
+        }
+        ArrayList<String> imagesURLs = post.getImagesURLs();
+
+        loadEditableImages(imagesURLs);
+    }
+
+    private void setupContestPostFields(ContestPostModel post) {
+        binding.inputTitle.setText(post.getTitle());
+        binding.inputDescription.setText(post.getDescription());
+        ArrayList<String> imagesURLs = post.getImagesURLs();
+        if (post.getPublishType() == PostModel.STATE_PUBLISHED) {
+            binding.publishCheckbox.setChecked(true);
+        }
+        loadEditableImages(imagesURLs);
     }
 
     // Метод для временного сохранения файлов в память
@@ -465,7 +559,7 @@ public class NewPostActivity extends AppCompatActivity {
                 reference = database.getReference("Hackathon_posts");
             }
 
-            if (mode == CREATE_NEW_POST) {
+            if (mode == CREATE_NEW_POST || mode == IMPORT_POST) {
                 keyReference = reference.push();
                 uid = keyReference.getKey();
             } else {
@@ -527,7 +621,7 @@ public class NewPostActivity extends AppCompatActivity {
             reference = database.getReference("Hackathon_posts");
         }
 
-        if (mode == CREATE_NEW_POST) {
+        if (mode == CREATE_NEW_POST || mode == IMPORT_POST) {
             keyReference = reference.push();
             uid = keyReference.getKey();
         } else {
@@ -581,9 +675,9 @@ public class NewPostActivity extends AppCompatActivity {
                 Uri currentURI = uploadedImagesURIs.get(i);
                 String location = String.format("post_images/%s/%s.jpeg", id, imageID);
                 StorageReference reference = storage.getReference(location);
-
                 int index = i;
-                reference.putBytes(compressedURI(currentURI)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                OnSuccessListener<UploadTask.TaskSnapshot> listener = new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -602,7 +696,14 @@ public class NewPostActivity extends AppCompatActivity {
                             }
                         });
                     }
-                });
+                };
+
+                if (mode == IMPORT_POST) {
+                    // Не сжимаем картинку, если она загружена из вк
+                    reference.putFile(currentURI).addOnSuccessListener(listener);
+                } else {
+                    reference.putBytes(compressedURI(currentURI)).addOnSuccessListener(listener);
+                }
             }
         } else {
             onBackPressed();

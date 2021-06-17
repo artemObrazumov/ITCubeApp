@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_child"
+        android:orderInCategory="100"
+        android:title="@string/action_add_child"
+        android:icon="@drawable/ic_add_child"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_view_children"
+        android:orderInCategory="100"
+        android:title="@string/action_view_children"
+        android:icon="@drawable/ic_group"
+        app:showAsAction="ifRoom"/>
+
+</menu>

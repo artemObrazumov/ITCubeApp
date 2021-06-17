@@ -28,6 +28,7 @@ public class RequestModel {
     private String directionName;                           // Название направления
     private String scheduleString;                          // Расписание
     private String reason;                                  // Причина отклонения (или переноса в резерв)
+    private String parentId;                                // ID родителя (если есть)
 
     // Конструкторы
     public RequestModel(String id, String userID, String email, String phone, String parent_phone,
@@ -235,5 +236,13 @@ public class RequestModel {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

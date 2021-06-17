@@ -54,7 +54,8 @@ public class CubeSelectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cube_select);
+        binding = ActivityCubeSelectBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Инициализация элементов
         progressDialog = new ProgressDialog(this);
@@ -72,11 +73,16 @@ public class CubeSelectActivity extends AppCompatActivity {
         binding.selectLaterText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Оставить выбор кубаа на потом
-                Intent intent = new Intent();
-                intent.putExtra("selectedCubeID", "0");
-                setResult(RESULT_OK, intent);
-                finish();
+                if (getIntent().getBooleanExtra("canSkip", true)) {
+                    // Оставить выбор кубаа на потом
+                    Intent intent = new Intent();
+                    intent.putExtra("selectedCubeID", "0");
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    // Пропустить нельзя
+                    Toast.makeText(CubeSelectActivity.this, getString(R.string.cant_skip_cube_select), Toast.LENGTH_LONG).show();
+                }
             }
         });
         binding.submitButton.setOnClickListener(new View.OnClickListener() {

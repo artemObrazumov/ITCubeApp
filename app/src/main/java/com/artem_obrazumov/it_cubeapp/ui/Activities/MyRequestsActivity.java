@@ -1,6 +1,7 @@
 package com.artem_obrazumov.it_cubeapp.ui.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,7 +17,9 @@ import android.widget.Toast;
 
 import com.artem_obrazumov.it_cubeapp.Adapters.RequestsAdapter;
 import com.artem_obrazumov.it_cubeapp.Models.RequestModel;
+import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,7 +74,11 @@ public class MyRequestsActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.loading));
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-        loadRequests();
+        if (UserData.thisUser.getUserStatus() != UserModel.STATUS_PARENT) {
+            loadRequests(auth.getCurrentUser().getUid());
+        } else {
+            loadRequestsWithChild();
+        }
 
         // Создание LayoutManager для RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -89,11 +97,25 @@ public class MyRequestsActivity extends AppCompatActivity {
         setupToolbar(getString(R.string.my_requests));
     }
 
+    private void loadRequestsWithChild() {
+        UserData.CreateChildrenNames();
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_child))
+                .setItems(UserData.userChildrenNames.toArray(new String[0]),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                loadRequests(UserData.userChildrenList.get(which).getUid());
+                            }
+                        })
+                .create().show();
+    }
+
     // Загрузка запросов
-    private void loadRequests() {
+    private void loadRequests(String id) {
         ArrayList<RequestModel> requests = new ArrayList<>();
         DatabaseReference reference = database.getReference("Request_forms");
-        Query postsQuery = reference.orderByChild("userID").equalTo(auth.getCurrentUser().getUid());
+        Query postsQuery = reference.orderByChild("userID").equalTo(id);
         postsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,8 +1,10 @@
 package com.artem_obrazumov.it_cubeapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.android.volley.AuthFailureError;
@@ -14,14 +16,22 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.artem_obrazumov.it_cubeapp.Models.ContestPostModel;
+import com.artem_obrazumov.it_cubeapp.Models.PostModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +53,7 @@ public class Tasks {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(input);
-                return bitmap;
+                return BitmapFactory.decodeStream(input);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.artem_obrazumov.it_cubeapp.Models.PostModel;
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -81,32 +82,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewPostActivity.class);
-
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle(getString(R.string.select_post_type))
-                        .setItems(new String[]{ getString(R.string.news_post), getString(R.string.hackathon_post), getString(R.string.contest_post) },
-                                new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        // Новостной пост
-                                        intent.putExtra("postType", PostModel.POST_TYPE_NEWS);
-                                        break;
-                                    case 1:
-                                        // Хакатон
-                                        intent.putExtra("postType", PostModel.POST_TYPE_HACKATHON);
-                                        break;
-                                    case 2:
-                                        // Конкурс
-                                        intent.putExtra("postType", PostModel.POST_TYPE_CONTEST);
-                                        break;
-                                }
-                                startActivity(intent);
-                            }
-                        })
-                        .create().show();
+                createTypeSelectDialog();
             }
         });
 
@@ -136,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     userStats = ds.getValue(UserModel.class);
+                    UserData.thisUser = userStats;
+                    UserData.GetChildrenListFromDB();
                     userDBid = ds.getKey();
 
                     // Устанавливаем имя пользователя и его статус
@@ -243,6 +221,59 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Создание диалога для выбора типа поста
+    private void createTypeSelectDialog() {
+        Intent intent = new Intent(getApplicationContext(), NewPostActivity.class);
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(getString(R.string.select_post_type))
+                .setItems(new String[]{ getString(R.string.news_post), getString(R.string.hackathon_post), getString(R.string.contest_post) },
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        // Новостной пост
+                                        intent.putExtra("postType", PostModel.POST_TYPE_NEWS);
+                                        break;
+                                    case 1:
+                                        // Хакатон
+                                        intent.putExtra("postType", PostModel.POST_TYPE_HACKATHON);
+                                        break;
+                                    case 2:
+                                        // Конкурс
+                                        intent.putExtra("postType", PostModel.POST_TYPE_CONTEST);
+                                        break;
+                                }
+                                selectPostActivityMode(intent);
+                            }
+                        })
+                .create().show();
+    }
+
+    private void selectPostActivityMode(Intent intent) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(getString(R.string.select_post_creation_type))
+                .setItems(new String[]{ getString(R.string.write_new_post), getString(R.string.import_post_from_vk) },
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        // Создание поста
+                                        intent.putExtra("mode", NewPostActivity.CREATE_NEW_POST);
+                                        break;
+                                    case 1:
+                                        // Импорт поста
+                                        intent.putExtra("mode", NewPostActivity.IMPORT_POST);
+                                        break;
+                                }
+                                startActivity(intent);
+                            }
+                        })
+                .create().show();
+    }
+
     // Проверка, есть ли интернет
     private boolean checkIfInternetAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -269,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
         // Обработчик нажатий на кнопки верхнего выпадающего меня
         switch (item.getItemId()) {
             case R.id.action_logout:
-
                 new AlertDialog.Builder(this)
                         .setMessage( getString(R.string.want_to_leave) )
                         .setCancelable(true)

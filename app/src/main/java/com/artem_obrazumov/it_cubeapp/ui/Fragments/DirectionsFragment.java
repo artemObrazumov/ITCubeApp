@@ -1,5 +1,6 @@
 package com.artem_obrazumov.it_cubeapp.ui.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.artem_obrazumov.it_cubeapp.databinding.FragmentDirectionsBinding;
 import com.artem_obrazumov.it_cubeapp.ui.Activities.MyRequestsActivity;
 import com.artem_obrazumov.it_cubeapp.ui.Activities.RequestFormActivity;
@@ -43,6 +46,8 @@ public class DirectionsFragment extends Fragment {
     // Firebase
     private FirebaseAuth auth;
 
+    private String childId = null;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -51,14 +56,34 @@ public class DirectionsFragment extends Fragment {
 
         // Инициализация элементов
         auth = FirebaseAuth.getInstance();
-        initializeLists();
+        if (UserData.thisUser.getUserStatus() != UserModel.STATUS_PARENT) {
+            initializeLists(auth.getCurrentUser().getUid());
+        }
+        else {
+            initializeListWithChild();
+        }
 
         return root;
     }
 
+    private void initializeListWithChild() {
+        UserData.CreateChildrenNames();
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.select_child))
+                .setItems(UserData.userChildrenNames.toArray(new String[0]),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                childId = UserData.userChildrenList.get(which).getUid();
+                                initializeLists(childId);
+                            }
+                        })
+                .create().show();
+    }
+
     // Инициализация адаптеров
-    private void initializeLists() {
-        UserModel.getUserQuery(auth.getCurrentUser().getUid()).addValueEventListener(
+    private void initializeLists(String id) {
+        UserModel.getUserQuery(id).addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -128,6 +153,9 @@ public class DirectionsFragment extends Fragment {
             public void onDirectionSubscribeButtonClicked(String directionID) {
                 Intent intent = new Intent(getActivity(), RequestFormActivity.class);
                 intent.putExtra("directionID", directionID);
+                if (childId != null) {
+                    intent.putExtra("Uid", childId);
+                }
                 startActivity(intent);
             }
         });

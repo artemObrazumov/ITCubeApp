@@ -1,14 +1,17 @@
 package com.artem_obrazumov.it_cubeapp.ui.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
 import com.artem_obrazumov.it_cubeapp.databinding.ActivityIntroBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,11 +52,35 @@ public class IntroActivity extends AppCompatActivity {
         // Если пользователь не подписан на главную тему уведомлений, то подписываем
         FirebaseMessaging.getInstance().subscribeToTopic("global_topic");
 
+        setupButtonListeners();
+    }
+
+    private void setupButtonListeners() {
         // Обработка нажатий на кнопки
         binding.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity( new Intent(getApplicationContext(), RegisterActivity.class) ); // Регистрация
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                new AlertDialog.Builder(IntroActivity.this)
+                        .setTitle(getString(R.string.select_user_status))
+                        .setItems(new String[]{ getString(R.string.user_account), getString(R.string.parent_account) },
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case 0:
+                                                // Собственный аккаунт
+                                                intent.putExtra("userStatus", UserModel.STATUS_STUDENT);
+                                                break;
+                                            case 1:
+                                                // Аккаунт родителя
+                                                intent.putExtra("userStatus", UserModel.STATUS_PARENT);
+                                                break;
+                                        }
+                                        startActivity(intent);       // Регистрация
+                                    }
+                                })
+                        .create().show();
             }
         });
 

@@ -220,6 +220,19 @@
     <string name="no_draft_contest_post">Черновиков постов о конкурсах не найдено. Вы можете начать писать их, нажав на кнопку в правом нижнем углу.</string>
     <string name="no_requests_found">Заявок этого типа не надено</string>
     <string name="allow_files_acces">Разрешите приложению доступ к файлам на устройстве</string>
+    <string name="write_new_post">Написать новый пост</string>
+    <string name="import_post_from_vk">Импорт поста из вк</string>
+    <string name="select_post_creation_type">Выберите тип добавления поста</string>
+    <string name="write_vk_link">Введите ссылку на пост вк</string>
+    <string name="select_user_status">Выберите тип аккаунта</string>
+    <string name="user_account">Собственный аккаунт</string>
+    <string name="parent_account">Родительский аккаунт</string>
+    <string name="register_child">Регистрация ребенка</string>
+    <string name="action_add_child">Добавить ребенка</string>
+    <string name="select_child">Выберите ребенка</string>
+    <string name="edit_my_account">Редактирование собственного аккаунта</string>
+    <string name="cant_skip_cube_select">Вы не можете пропустить выбор IT-Куба!</string>
+    <string name="action_view_children">Просмотреть детей</string>
 
 
     <string-array name="schools">

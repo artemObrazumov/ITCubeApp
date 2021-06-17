@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static final int GET_IT_CUBE = 100;
     private String selectedCubeID = "0";
+    private int userStatus;
 
     // Binding
     private ActivityRegisterBinding binding;
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Date dateOfBirthTime;
 
     // Окно для уведомления пользователя о регистрации
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     // FireBase
     private FirebaseAuth auth;
@@ -68,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        userStatus = getIntent().getIntExtra("userStatus", UserModel.STATUS_STUDENT);
 
         // Инициализация объектов для получения даты рождения
         calendar = Calendar.getInstance();
@@ -164,7 +166,7 @@ public class RegisterActivity extends AppCompatActivity {
                             String uid = auth.getCurrentUser().getUid();
                             // Собираем данные о пользователя в модель
                             UserModel createdUser = new UserModel(
-                                    uid, name, surname, email, calendar.getTimeInMillis(), selectedCubeID, UserModel.STATUS_STUDENT);
+                                    uid, name, surname, email, calendar.getTimeInMillis(), selectedCubeID, userStatus);
 
                             if (!selectedCubeID.equals("0")) {
                                 // Если был выбран куб, то записываем пользователя в список учеников

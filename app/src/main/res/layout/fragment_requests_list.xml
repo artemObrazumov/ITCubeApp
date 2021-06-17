@@ -69,31 +69,26 @@
             app:layout_scrollFlags="enterAlways">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/unchecked_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/unchecked"/>
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/accepted_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/accepted"/>
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/denied_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/denied"/>
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/reserved_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reserved"/>
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/enrolled_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enrolled"/>

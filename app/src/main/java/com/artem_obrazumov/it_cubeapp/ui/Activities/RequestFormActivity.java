@@ -28,6 +28,7 @@ import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
 import com.artem_obrazumov.it_cubeapp.Services.MessageService;
 import com.artem_obrazumov.it_cubeapp.Tasks;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.artem_obrazumov.it_cubeapp.databinding.ActivityRequestFormBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -69,6 +70,8 @@ public class RequestFormActivity extends AppCompatActivity {
 
     // Объект запроса
     private RequestModel requestFormData;
+
+    private String specificId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +119,11 @@ public class RequestFormActivity extends AppCompatActivity {
         });
         progressDialog = new ProgressDialog(this);
 
-        getUserDataAndSetupUI(auth.getCurrentUser().getUid());
+        if (UserData.thisUser.getUserStatus() != UserModel.STATUS_PARENT) {
+            getUserDataAndSetupUI(auth.getCurrentUser().getUid());
+        } else {
+            getUserDataWithChild();
+        }
     }
 
     private void getDirectionID() {
@@ -249,6 +256,11 @@ public class RequestFormActivity extends AppCompatActivity {
         );
     }
 
+    private void getUserDataWithChild() {
+        specificId = getIntent().getStringExtra("Uid");
+        getUserDataAndSetupUI(specificId);
+    }
+
     // Метод для установки значений в поля
     private void setupUI(UserModel user) {
         binding.inputName.setText(user.getName());
@@ -339,6 +351,10 @@ public class RequestFormActivity extends AppCompatActivity {
                         (teacher_surname + " " + teacher_name + " " + teacher_patronymic), school, form,
                         dateOfBirthCalendar.getTimeInMillis(), directionID, programID, scheduleID, cubeID,
                         direction.getTitle(), scheduleString);
+                if (specificId != null) {
+                    requestFormData.setUserID(specificId);
+                    requestFormData.setParentId(auth.getCurrentUser().getUid());
+                }
                 return true;
             } catch (Exception ignored) {
                 Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
