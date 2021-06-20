@@ -168,14 +168,9 @@ public class RegisterActivity extends AppCompatActivity {
                             UserModel createdUser = new UserModel(
                                     uid, name, surname, email, calendar.getTimeInMillis(), selectedCubeID, userStatus);
 
-                            if (!selectedCubeID.equals("0")) {
-                                // Если был выбран куб, то записываем пользователя в список учеников
-                                subscribeToCube(selectedCubeID, uid);
-                            }
-
                             // Заполняем базу данными
-                            DatabaseReference reference = database.getReference("Users_data");
-                            reference.push().setValue(createdUser);
+                            DatabaseReference reference = database.getReference("Users_data/" + uid);
+                            reference.setValue(createdUser);
 
                             Toast.makeText(getApplicationContext(), getString( R.string.account_created ), Toast.LENGTH_SHORT).show();
 
@@ -205,32 +200,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.e( getString(R.string.app_name), e.getMessage() );
                 }
             });
-    }
-
-    // Запись ученика в куб
-    private void subscribeToCube(String cubeID, String uid) {
-        ITCubeModel.getCubeQuery(cubeID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()) {
-                    ITCubeModel cube = ds.getValue(ITCubeModel.class);
-                    HashMap<String, Object> updatedData = new HashMap<>();
-                    ArrayList<String> updatedStudentsList = cube.getStudents();
-                    if (updatedStudentsList == null) {
-                        updatedStudentsList = new ArrayList<>();
-                    }
-                    updatedStudentsList.add(uid);
-                    updatedData.put("students", updatedStudentsList);
-
-                    database.getReference("IT_Cubes").child(cubeID).updateChildren(updatedData);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), getString(R.string.failed_loading), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     // Обновление даты рождения в строке

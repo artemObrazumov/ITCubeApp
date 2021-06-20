@@ -30,9 +30,11 @@ import com.artem_obrazumov.it_cubeapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DirectionsFragment extends Fragment {
 
@@ -104,7 +106,7 @@ public class DirectionsFragment extends Fragment {
     }
 
     // Инициализация списка с курсами, на которые записан пользователь
-    private void initializeCoursesList(ArrayList<String> directionsIDs) {
+    private void initializeCoursesList(HashMap<String, Object> directionsIDs) {
         ArrayList<DirectionModel> userDirections = new ArrayList<>();
         userDirectionsAdapter = new DirectionsListAdapter(userDirections);
         binding.userDirectionsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -116,8 +118,8 @@ public class DirectionsFragment extends Fragment {
         binding.userDirectionsList.addItemDecoration(divider);
 
         // Заполнение адаптера данными о направлениях пользователя
-        for (int i = 0; i < directionsIDs.size(); i++) {
-            DirectionModel.getDirectionQuery(directionsIDs.get(i)).addListenerForSingleValueEvent(
+        for (String key : directionsIDs.keySet()) {
+            DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -145,7 +147,7 @@ public class DirectionsFragment extends Fragment {
     }
 
     // Инициализация списка с курсами, на которые может записаться пользователь
-    private void initializeAvailableDirectionsList(String cubeId, ArrayList<String> userDirectionsIDs) {
+    private void initializeAvailableDirectionsList(String cubeId, HashMap<String, Object> userDirectionsIDs) {
         ArrayList<DirectionModel> availableDirections = new ArrayList<>();
         availableDirectionsAdapter = new DirectionsListAdapter(availableDirections, DirectionsListAdapter.MODE_AVAILABLE);
         availableDirectionsAdapter.setOnDirectionClickListener(new DirectionsListAdapter.OnDirectionClickListener() {
@@ -168,18 +170,17 @@ public class DirectionsFragment extends Fragment {
         divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.availableDirectionsList.addItemDecoration(divider);
 
-        ITCubeModel.getCubeQuery(cubeId).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("IT_Cubes/" + cubeId + "/directions").
+                addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    ITCubeModel cube = ds.getValue(ITCubeModel.class);
-                    ArrayList<String> cubeDirections = cube.getDirections();
-
+                    HashMap<String, Object> directions = ds.getValue(HashMap.class);
                     /* Если мы видим направление, которое доступено в этом кубе, но его нет у
                        пользователя, то добавляем в список с доступными курсами */
-                    for (int i = 0; i < cubeDirections.size(); i++) {
-                        if (!userDirectionsIDs.contains(cubeDirections.get(i))) {
-                            DirectionModel.getDirectionQuery(cubeDirections.get(i)).addListenerForSingleValueEvent(
+                    for (String key : directions.keySet()) {
+                        if (!userDirectionsIDs.containsKey(key)) {
+                            DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
                                     new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {

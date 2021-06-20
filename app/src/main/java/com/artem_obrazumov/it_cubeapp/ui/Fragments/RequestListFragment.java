@@ -293,65 +293,8 @@ public class RequestListFragment extends Fragment {
 
     // Запись ученика на направление
     private void subscribeUserToDirection(String userID, String schedule, String direction) {
-        ScheduleModel.getScheduleQuery(schedule).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds: snapshot.getChildren()) {
-                            ArrayList<String> students = ds.getValue(ScheduleModel.class).getStudents();
-                            if (students == null) {
-                                students = new ArrayList<>();
-                            }
-                            if (!students.contains(userID)) {
-                                students.add(userID);
-                            }
-
-                            HashMap<String, Object> updatedValues = new HashMap<>();
-                            updatedValues.put("students", students);
-                            database.getReference("Schedules").child(schedule)
-                                    .updateChildren(updatedValues);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), getString(R.string.cant_subscribe_user), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-
-        UserModel.getUserQuery(userID).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds: snapshot.getChildren()) {
-                            UserModel user = ds.getValue(UserModel.class);
-                            ArrayList<String> schedules = user.getSchedulesId();
-                            if (schedules == null) {
-                                schedules = new ArrayList<>();
-                            }
-                            schedules.add(schedule);
-                            ArrayList<String> directions = user.getDirectionsID();
-                            if (directions == null) {
-                                directions = new ArrayList<>();
-                            }
-                            directions.add(direction);
-
-                            HashMap<String, Object> updatedValues = new HashMap<>();
-                            updatedValues.put("schedulesId", schedules);
-                            updatedValues.put("directionsID", directions);
-
-                            database.getReference("Users_data").child(ds.getKey())
-                                    .updateChildren(updatedValues);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), getString(R.string.cant_subscribe_user), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+        database.getReference("Users_data/" + userID + "/schedulesId/" + schedule).setValue(true);
+        database.getReference("Users_data/" + userID + "/directionsID/" + direction).setValue(true);
     }
 
     // Отправка уведомления

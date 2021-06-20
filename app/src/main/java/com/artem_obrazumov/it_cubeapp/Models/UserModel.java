@@ -5,6 +5,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserModel {
     // Константы
@@ -15,19 +16,18 @@ public class UserModel {
     public static final int STATUS_GLOBAL_ADMIN = 4;
 
     // Переменные модели пользователя
-    private String uid;                        // ID пользователя
-    private String name;                       // Имя пользователя
-    private String surname;                    // Фамилия пользователя
-    private String email;                      // Email пользователя
-    private long dateOfBirth;                  // Дата рождения
-    private String cubeId;                     // ID IT-Куба ученика
-    private ArrayList<String> schedulesId;     // Группы пользователя
-    private ArrayList<String> directionsID;    // Направления пользователя
+    private String uid;                           // ID пользователя
+    private String name;                          // Имя пользователя
+    private String surname;                       // Фамилия пользователя
+    private String email;                         // Email пользователя
+    private long dateOfBirth;                     // Дата рождения
+    private String cubeId;                        // ID IT-Куба ученика
+    private HashMap<String, Object> schedulesId;  // Группы пользователя
+    private HashMap<String, Object> directionsID; // Направления пользователя
     // Аватарка пользователя
     private String avatar = "https://firebasestorage.googleapis.com/v0/b/it-cube-app.appspot.com/o/default_user_profile_icon.jpg?alt=media&token=d67bfbf3-a20a-40ca-aa67-44366ea585f5";
-    private int userStatus = STATUS_STUDENT;   // Статус пользователя
-
-    private String parentID;                   // ID родительского аккаунта (если есть)
+    private int userStatus = STATUS_STUDENT;      // Статус пользователя
+    private String parentID;                      // ID родительского аккаунта (если есть)
 
     // Пустой конструктор
     public UserModel () {}
@@ -119,23 +119,23 @@ public class UserModel {
         this.cubeId = cubeId;
     }
 
-    public ArrayList<String> getSchedulesId() {
+    public HashMap<String, Object> getSchedulesId() {
         return schedulesId;
     }
 
-    public void setSchedulesId(ArrayList<String> schedulesId) {
+    public void setSchedulesId(HashMap<String, Object> schedulesId) {
         this.schedulesId = schedulesId;
     }
 
-    public ArrayList<String> getDirectionsID() {
+    public HashMap<String, Object> getDirectionsID() {
         if (directionsID == null) {
-            return new ArrayList<>();
+            return new HashMap<>();
         } else {
             return directionsID;
         }
     }
 
-    public void setDirectionsID(ArrayList<String> directionsID) {
+    public void setDirectionsID(HashMap<String, Object> directionsID) {
         this.directionsID = directionsID;
     }
 

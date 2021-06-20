@@ -12,21 +12,20 @@ public class ITCubeModel {
     private String address;
     private String description;
     private String city;
-    private ArrayList<String> Directions;
+    private HashMap<String, Object> Directions;
     private ArrayList<String> Groups;
-    private ArrayList<String> Students;
     private ArrayList<String> PhotosURLs;
 
     // Конструкторы
-    public ITCubeModel(String ID, String address, String description, String city, ArrayList<String> directions,
-                       ArrayList<String> groups, ArrayList<String> students, ArrayList<String> photosURLs) {
+    public ITCubeModel(String ID, String address, String description, String city,
+                       HashMap<String, Object> directions, ArrayList<String> groups,
+                       ArrayList<String> students, ArrayList<String> photosURLs) {
         this.ID = ID;
         this.address = address;
         this.description = description;
         this.city = city;
         this.Directions = directions;
         this.Groups = groups;
-        this.Students = students;
         this.PhotosURLs = photosURLs;
     }
 
@@ -74,11 +73,11 @@ public class ITCubeModel {
         this.city = city;
     }
 
-    public ArrayList<String> getDirections() {
+    public HashMap<String, Object> getDirections() {
         return Directions;
     }
 
-    public void setDirections(ArrayList<String> directions) {
+    public void setDirections(HashMap<String, Object> directions) {
         Directions = directions;
     }
 
@@ -88,14 +87,6 @@ public class ITCubeModel {
 
     public void setGroups(ArrayList<String> groups) {
         Groups = groups;
-    }
-
-    public ArrayList<String> getStudents() {
-        return Students;
-    }
-
-    public void setStudents(ArrayList<String> students) {
-        Students = students;
     }
 
     public ArrayList<String> getPhotosURLs() {

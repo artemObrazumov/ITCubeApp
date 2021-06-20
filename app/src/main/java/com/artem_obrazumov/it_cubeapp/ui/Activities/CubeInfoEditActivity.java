@@ -184,8 +184,7 @@ public class CubeInfoEditActivity extends AppCompatActivity {
                 final String[] path = new String[1];
                 final Bitmap[] bitmap = new Bitmap[1];
                 int imagesLeft = imagesURLs.size() - i;
-                new Thread(
-                        new Runnable() {
+                new Thread( new Runnable() {
                             @Override
                             public void run() {
                                 bitmap[0] = new Tasks.ImageBitmapLoader(src).doInBackground();

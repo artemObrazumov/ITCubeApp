@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -121,9 +122,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     // Получение информации о направлениях пользователя
-    private void getDirectionsList(ArrayList<String> directionsID) {
-        for (int i = 0; i < directionsID.size(); i++) {
-            DirectionModel.getDirectionQuery(directionsID.get(i)).addListenerForSingleValueEvent(
+    private void getDirectionsList(HashMap<String, Object> directionsID) {
+        for (String key : directionsID.keySet()) {
+            DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

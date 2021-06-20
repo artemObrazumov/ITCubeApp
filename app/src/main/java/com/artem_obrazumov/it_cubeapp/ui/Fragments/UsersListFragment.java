@@ -25,6 +25,9 @@ import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -80,21 +83,22 @@ public class UsersListFragment extends Fragment {
     }
 
     private void findStudentsList(String cubeID) {
-        ITCubeModel.getCubeQuery(cubeID).addListenerForSingleValueEvent(
+        DatabaseReference reference = FirebaseDatabase.getInstance().
+                getReference("Users_data");
+        reference.orderByChild("cubeId").equalTo(cubeID).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            ArrayList<String> studentsIDs =
-                                    ds.getValue(ITCubeModel.class).getStudents();
-                            setupStudentsList(studentsIDs);
+                        ArrayList<String> studentsIDs = new ArrayList<>();
+                        for (DataSnapshot ds: snapshot.getChildren()) {
+                            studentsIDs.add(ds.getKey());
                         }
+                        setupStudentsList(studentsIDs);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Navigation.findNavController(getView()).navigateUp();
-                        Toast.makeText(getContext(), getString(R.string.loading_students_error), Toast.LENGTH_SHORT).show();
+
                     }
                 }
         );

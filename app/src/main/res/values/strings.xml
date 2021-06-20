@@ -233,6 +233,7 @@
     <string name="edit_my_account">Редактирование собственного аккаунта</string>
     <string name="cant_skip_cube_select">Вы не можете пропустить выбор IT-Куба!</string>
     <string name="action_view_children">Просмотреть детей</string>
+    <string name="directions_list">Список направлений</string>
 
 
     <string-array name="schools">

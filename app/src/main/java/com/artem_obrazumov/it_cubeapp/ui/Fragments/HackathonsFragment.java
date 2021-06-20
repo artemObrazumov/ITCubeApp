@@ -92,6 +92,7 @@ public class HackathonsFragment extends Fragment {
                 // Если постов нет, то показываем уведомление об этом
                 if (hackathonsPosts.size() == 0) {
                     binding.nothingFoundNotification.setVisibility(View.VISIBLE);
+                    binding.nothingFoundText.setText(getString(R.string.no_hackathon_posts_found));
                 } else {
                     binding.nothingFoundNotification.setVisibility(View.GONE);
                 }

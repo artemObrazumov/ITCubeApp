@@ -89,6 +89,7 @@ public class NewsFragment extends Fragment {
                 // Если постов нет, то показываем уведомление об этом
                 if (posts.size() == 0) {
                     binding.nothingFoundNotification.setVisibility(View.VISIBLE);
+                    binding.nothingFoundText.setText(getString(R.string.no_news_posts_found));
                 } else {
                     binding.nothingFoundNotification.setVisibility(View.GONE);
                 }

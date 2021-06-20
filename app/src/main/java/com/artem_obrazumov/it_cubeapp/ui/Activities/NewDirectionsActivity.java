@@ -215,34 +215,9 @@ public class NewDirectionsActivity extends AppCompatActivity {
         keyReference.setValue(direction);
 
         // Добавляем направление в куб
-        ITCubeModel.getCubeQuery(cubeID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()) {
-                    ITCubeModel cube = ds.getValue(ITCubeModel.class);
-                    HashMap<String, Object> updatedData = new HashMap<>();
-                    ArrayList<String> updatedDirectionsList = cube.getDirections();
-                    if (updatedDirectionsList == null) {
-                        updatedDirectionsList = new ArrayList<>();
-                    }
-                    updatedDirectionsList.add(direction.getId());
-                    updatedData.put("directions", updatedDirectionsList);
-
-                    database.getReference("IT_Cubes").child(cubeID).updateChildren(updatedData)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    finish();
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), getString(R.string.failed_loading), Toast.LENGTH_SHORT).show();
-            }
-        });
+        database.getReference("IT_Cubes/" + cubeID + "/directions/" + direction.getId()).
+                setValue(true);
+        finish();
     }
 
     private boolean validateDirectionData(DirectionModel direction) {

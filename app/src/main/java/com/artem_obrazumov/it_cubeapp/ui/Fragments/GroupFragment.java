@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GroupFragment extends Fragment {
 
@@ -104,13 +105,13 @@ public class GroupFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds: snapshot.getChildren()) {
-                            ArrayList<String> groupsIDs = ds.getValue(UserModel.class).getSchedulesId();
+                            HashMap<String, Object> groupsIDs = ds.getValue(UserModel.class).getSchedulesId();
                             if (groupsIDs == null) {
-                                groupsIDs = new ArrayList<>();
+                                groupsIDs = new HashMap<>();
                             }
 
-                            for (int i = 0; i < groupsIDs.size(); i++) {
-                                ScheduleModel.getScheduleQuery(groupsIDs.get(i)).addListenerForSingleValueEvent(
+                            for (String key : groupsIDs.keySet()) {
+                                ScheduleModel.getScheduleQuery(key).addListenerForSingleValueEvent(
                                         new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CubeDirectionsFragment extends Fragment {
 
@@ -34,15 +35,15 @@ public class CubeDirectionsFragment extends Fragment {
 
     private DirectionsListAdapter adapter;
     private ArrayList<DirectionModel> directions;
-    private ArrayList<String> directionIDs;
+    private HashMap<String, Object> directionIDs;
     private String cubeID;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_cube_directions, container, false);
+        binding = FragmentCubeDirectionsBinding.inflate(getLayoutInflater());
 
         // Создаем разделитель между направлениями
-        DividerItemDecoration divider = new DividerItemDecoration(binding.directionsList.getContext(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.directionsList.addItemDecoration(divider);
 
@@ -51,7 +52,7 @@ public class CubeDirectionsFragment extends Fragment {
         binding.directionsList.setAdapter(adapter);
 
         findDirectionsList(cubeID);
-        return root;
+        return binding.getRoot();
     }
 
     // Поиск списка направлений куба
@@ -63,7 +64,7 @@ public class CubeDirectionsFragment extends Fragment {
                         for (DataSnapshot ds: snapshot.getChildren()) {
                             directionIDs = ds.getValue(ITCubeModel.class).getDirections();
                             if (directionIDs == null) {
-                                directionIDs = new ArrayList<>();
+                                directionIDs = new HashMap<>();
                             }
                         }
                         getDirections();
@@ -78,9 +79,10 @@ public class CubeDirectionsFragment extends Fragment {
 
     // Получение данных о направлениях
     private void getDirections() {
+        binding.directionsList.setLayoutManager(new LinearLayoutManager(getContext()));
         directions = new ArrayList<>();
-        for (int i = 0; i < directionIDs.size(); i++) {
-            DirectionModel.getDirectionQuery(directionIDs.get(i)).addListenerForSingleValueEvent(
+        for (String key : directionIDs.keySet()) {
+            DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

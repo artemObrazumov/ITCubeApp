@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/nav_cube_directions_list"
         android:name="com.artem_obrazumov.it_cubeapp.ui.Fragments.CubeDirectionsFragment"
-        android:label="@string/students_list"
+        android:label="@string/directions_list"
         tools:layout="@layout/fragment_users_list" />
 
 </navigation>

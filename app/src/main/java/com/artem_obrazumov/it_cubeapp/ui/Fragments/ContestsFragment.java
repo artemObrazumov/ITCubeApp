@@ -92,6 +92,7 @@ public class ContestsFragment extends Fragment {
                 // Если постов нет, то показываем уведомление об этом
                 if (contestPosts.size() == 0) {
                     binding.nothingFoundNotification.setVisibility(View.VISIBLE);
+                    binding.nothingFoundText.setText(getString(R.string.no_contest_posts_found));
                 } else {
                     binding.nothingFoundNotification.setVisibility(View.GONE);
                 }
