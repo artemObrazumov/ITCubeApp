@@ -85,7 +85,7 @@ public class DirectionsFragment extends Fragment {
 
     // Инициализация адаптеров
     private void initializeLists(String id) {
-        UserModel.getUserQuery(id).addValueEventListener(
+        UserModel.getUserQuery(id).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,9 +113,11 @@ public class DirectionsFragment extends Fragment {
         binding.userDirectionsList.setNestedScrollingEnabled(false);
         binding.userDirectionsList.setAdapter(userDirectionsAdapter);
         // Создаем разделитель между направлениями
-        DividerItemDecoration divider = new DividerItemDecoration(binding.userDirectionsList.getContext(), DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
-        binding.userDirectionsList.addItemDecoration(divider);
+        try {
+            DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+            divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
+            binding.userDirectionsList.addItemDecoration(divider);
+        } catch (Exception ignored) {}
 
         // Заполнение адаптера данными о направлениях пользователя
         for (String key : directionsIDs.keySet()) {
@@ -148,6 +150,12 @@ public class DirectionsFragment extends Fragment {
 
     // Инициализация списка с курсами, на которые может записаться пользователь
     private void initializeAvailableDirectionsList(String cubeId, HashMap<String, Object> userDirectionsIDs) {
+        // Создаем разделитель между направлениями
+        DividerItemDecoration divider =
+                new DividerItemDecoration(binding.availableDirectionsList.getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
+        binding.availableDirectionsList.addItemDecoration(divider);
+
         ArrayList<DirectionModel> availableDirections = new ArrayList<>();
         availableDirectionsAdapter = new DirectionsListAdapter(availableDirections, DirectionsListAdapter.MODE_AVAILABLE);
         availableDirectionsAdapter.setOnDirectionClickListener(new DirectionsListAdapter.OnDirectionClickListener() {
@@ -164,48 +172,41 @@ public class DirectionsFragment extends Fragment {
         binding.availableDirectionsList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.availableDirectionsList.setNestedScrollingEnabled(false);
         binding.availableDirectionsList.setAdapter(availableDirectionsAdapter);
-        // Создаем разделитель между направлениями
-        DividerItemDecoration divider =
-                new DividerItemDecoration(binding.availableDirectionsList.getContext(), DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
-        binding.availableDirectionsList.addItemDecoration(divider);
 
         FirebaseDatabase.getInstance().getReference("IT_Cubes/" + cubeId + "/directions").
                 addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    HashMap<String, Object> directions = ds.getValue(HashMap.class);
                     /* Если мы видим направление, которое доступено в этом кубе, но его нет у
                        пользователя, то добавляем в список с доступными курсами */
-                    for (String key : directions.keySet()) {
-                        if (!userDirectionsIDs.containsKey(key)) {
-                            DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
-                                    new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                                availableDirections.add(ds.getValue(DirectionModel.class));
-                                            }
-                                            // Инициализация адаптера полученными данными
-                                            availableDirectionsAdapter.setDataSet(availableDirections);
-                                            if (availableDirections.size() == 0) {
-                                                // Если список доступных направлений пуст, то прячем его
-                                                binding.availableDirectionsListTitle.setVisibility(View.GONE);
-                                                binding.availableDirectionsList.setVisibility(View.GONE);
-                                            } else {
-                                                binding.availableDirectionsListTitle.setVisibility(View.VISIBLE);
-                                                binding.availableDirectionsList.setVisibility(View.VISIBLE);
-                                            }
+                    final String key = ds.getKey();
+                    if (!userDirectionsIDs.containsKey(key)) {
+                        DirectionModel.getDirectionQuery(key).addListenerForSingleValueEvent(
+                                new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+                                            availableDirections.add(ds.getValue(DirectionModel.class));
                                         }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(getContext(), getString(R.string.load_user_data_error), Toast.LENGTH_SHORT).show();
+                                        // Инициализация адаптера полученными данными
+                                        availableDirectionsAdapter.setDataSet(availableDirections);
+                                        if (availableDirections.size() == 0) {
+                                            // Если список доступных направлений пуст, то прячем его
+                                            binding.availableDirectionsListTitle.setVisibility(View.GONE);
+                                            binding.availableDirectionsList.setVisibility(View.GONE);
+                                        } else {
+                                            binding.availableDirectionsListTitle.setVisibility(View.VISIBLE);
+                                            binding.availableDirectionsList.setVisibility(View.VISIBLE);
                                         }
                                     }
-                            );
-                        }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(getContext(), getString(R.string.load_user_data_error), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                        );
                     }
                 }
             }

@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.artem_obrazumov.it_cubeapp.Models.ScheduleModel;
 import com.artem_obrazumov.it_cubeapp.Models.UserModel;
 import com.artem_obrazumov.it_cubeapp.R;
+import com.artem_obrazumov.it_cubeapp.UserData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -91,6 +93,24 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 );
             }
         }
+
+        public void getStudentsListFromDatabase(ScheduleModel group) {
+            ArrayList<UserModel> students = new ArrayList<>();
+            FirebaseDatabase.getInstance().getReference("Users_data").
+                    orderByChild("schedulesId/" + group.getId()).equalTo(true).
+                    addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds: snapshot.getChildren()) {
+                                students.add(ds.getValue(UserModel.class));
+                            }
+                            adapter.updateUsersList(students);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+        }
     }
 
     @NonNull
@@ -111,7 +131,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         holder.getStudentsList().setLayoutManager(new LinearLayoutManager(context));
         holder.getStudentsList().setNestedScrollingEnabled(false);
 
-        holder.initializeData(group.getStudents());
+        holder.getStudentsListFromDatabase(group);
     }
 
     @Override
